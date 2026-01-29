@@ -1,0 +1,155 @@
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.dialog-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 90%;
+  max-width: 450px;
+}
+
+.add-member-dialog {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, var(--color-progress-bg), #a0c4ff);
+    border-radius: 24px 24px 0 0;
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a2332;
+    }
+
+    .dialog-close {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+    }
+  }
+
+  .dialog-content {
+    padding: 32px 24px;
+    flex: 1;
+
+    .error-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 214, 214, 0.3);
+      border: 1px solid rgba(255, 214, 214, 0.8);
+      border-radius: 12px;
+      margin-bottom: 20px;
+
+      mat-icon {
+        color: #c00;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      div {
+        flex: 1;
+
+        strong {
+          color: #c00;
+          display: block;
+          margin-bottom: 4px;
+          font-weight: 600;
+        }
+
+        p {
+          margin: 0;
+          font-size: 14px;
+          color: #c00;
+        }
+      }
+    }
+  }
+
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 24px 32px;
+    background: linear-gradient(to bottom, rgba(207, 226, 255, 0.1), rgba(207, 226, 255, 0.05));
+    border-radius: 0 0 24px 24px;
+
+    button {
+      min-width: 100px;
+      height: 44px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    .cancel-btn {
+      color: #666;
+    }
+
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent !important;
+      color: var(--color-text-primary) !important;
+      border: 2px solid rgba(0, 0, 0, 0.12) !important;
+      box-shadow: none !important;
+      
+      &:hover:not(:disabled) {
+        background: rgba(0, 0, 0, 0.04) !important;
+        border-color: rgba(0, 0, 0, 0.2) !important;
+      }
+
+      .spinner {
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .dialog-wrapper {
+    width: 95%;
+    max-width: none;
+  }
+}
+

@@ -1,0 +1,41 @@
+<mat-card class="team-card" [ngClass]="colorClass">
+  <div class="card-accent"></div>
+  <div class="card-inner">
+    <div class="team-header">
+      <div class="team-avatar">
+        {{ team.name.charAt(0).toUpperCase() }}
+      </div>
+      <div class="team-info">
+        <h3 class="team-name">{{ team.name }}</h3>
+        @if (team.description) {
+          <p class="team-description">{{ team.description }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="team-stats">
+      <div class="stat-item">
+        <mat-icon>people</mat-icon>
+        <span>{{ team.memberCount }} Members</span>
+      </div>
+    </div>
+
+    <div class="team-actions">
+      <button
+        mat-stroked-button
+        (click)="navigateToProjectsPage()"
+        class="action-btn">
+        <mat-icon>folder_open</mat-icon>
+        <span>View Projects</span>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="requestAddMember()"
+        class="action-btn">
+        <mat-icon>person_add</mat-icon>
+        <span>Add Member</span>
+      </button>
+    </div>
+  </div>
+</mat-card>
+

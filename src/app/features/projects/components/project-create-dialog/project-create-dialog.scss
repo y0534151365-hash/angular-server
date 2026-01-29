@@ -1,0 +1,60 @@
+// Uses global dialog styles with project-specific enhancements
+
+.create-dialog {
+  border-radius: 20px !important;
+  
+  .dialog-header {
+    background: linear-gradient(135deg, var(--color-progress-bg), #a0c4ff) !important;
+    padding: 28px 32px !important;
+    border-radius: 20px 20px 0 0 !important;
+    
+    h2 {
+      font-size: 24px !important;
+    }
+  }
+  
+  .dialog-content {
+    padding: 32px 24px;
+  }
+  
+  mat-form-field {
+    margin-bottom: 8px;
+    
+    .mat-mdc-form-field-focus-overlay {
+      background-color: var(--color-done-bg) !important;
+    }
+  }
+  
+  .submit-btn {
+    background: transparent !important;
+    color: var(--color-text-primary) !important;
+    border: 2px solid rgba(0, 0, 0, 0.12) !important;
+    padding: 0 24px !important;
+    height: 44px !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+    
+    &:hover:not(:disabled) {
+      background: rgba(0, 0, 0, 0.04) !important;
+      border-color: rgba(0, 0, 0, 0.2) !important;
+      transform: translateY(-1px);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+    }
+    
+    .spinner {
+      margin-right: 8px;
+    }
+  }
+  
+  .cancel-btn {
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.04) !important;
+    }
+  }
+}
+

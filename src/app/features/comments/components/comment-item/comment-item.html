@@ -1,0 +1,12 @@
+<div class="comment-wrapper">
+  <div class="author-avatar">{{ comment.author_name.charAt(0).toUpperCase() }}</div>
+  <div class="comment-bubble">
+    <div class="comment-header">
+      <span class="author-name">{{ comment.author_name }}</span>
+      <span class="comment-time">{{ comment.created_at | date:'MMM d, h:mm a' }}</span>
+    </div>
+    <div class="comment-body">
+      {{ comment.body }}
+    </div>
+  </div>
+</div>

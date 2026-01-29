@@ -1,0 +1,13 @@
+// ============================================================================
+// TEAMS PAGE - Clean Grid Layout
+// ============================================================================
+
+.teams-container {
+  min-height: calc(100vh - 64px);
+  padding: var(--space-2xl);
+}
+
+.teams-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+}

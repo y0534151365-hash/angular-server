@@ -1,0 +1,77 @@
+<div class="page teams-container">
+  <div class="page-header">
+    <div class="header-left">
+      <button mat-icon-button class="back-btn" routerLink="/" aria-label="Go back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 class="page-title">Teams</h1>
+    </div>
+    <button
+      mat-stroked-button
+      (click)="openCreateTeamModal()"
+      class="create-btn"
+    >
+      <mat-icon>add</mat-icon>
+      Create Team
+    </button>
+  </div>
+
+  @if (state().isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading teams...</p>
+    </div>
+  }
+
+  @if (!state().isLoading && state().error) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <div>
+        <h3>Failed to Load Teams</h3>
+        <p>{{ state().error }}</p>
+      </div>
+    </div>
+  }
+
+  @if (!state().isLoading && !state().error && state().teams.length === 0) {
+    <div class="empty-state">
+      <mat-icon>group</mat-icon>
+      <h3>No Teams Yet</h3>
+      <p>Create a new team to get started with collaboration</p>
+      <button
+        mat-stroked-button
+        (click)="openCreateTeamModal()"
+        class="empty-action"
+      >
+        <mat-icon>add</mat-icon>
+        Create Your First Team
+      </button>
+    </div>
+  }
+
+  @if (!state().isLoading && !state().error && state().teams.length > 0) {
+    <div class="teams-grid">
+      <app-team-list
+        [teams]="state().teams"
+        (addMember)="openAddMemberModal($event)"
+      ></app-team-list>
+    </div>
+  }
+
+  @if (selectedTeamId()) {
+    <app-team-add-member-dialog
+      [teamid]="selectedTeamId()!.toString()"
+      [isLoading]="isAddingMember()"
+      [error]="addMemberError()"
+      (onClose)="closeAddMemberModal()"
+      (addMember)="onAddMemberSubmit($event)"
+    ></app-team-add-member-dialog>
+  }
+
+  @if (isCreateTeamModalOpen()) {
+    <app-team-create-dialog
+      (onClose)="closeCreateTeamModal()"
+      (createTeam)="onCreateTeamSubmit($event)"
+    ></app-team-create-dialog>
+  }
+</div>

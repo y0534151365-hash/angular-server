@@ -1,0 +1,189 @@
+// ============================================================================
+// DIALOG COMPONENTS - Consistent styling for all dialogs
+// ============================================================================
+
+// Custom dialog overlay (for non-Material dialogs)
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Custom dialog wrapper
+.dialog-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 480px;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow: auto;
+  
+  @media (max-width: 600px) {
+    width: 95vw;
+    max-height: 95vh;
+  }
+}
+
+// Dialog content
+.create-dialog,
+.edit-dialog,
+.confirm-dialog {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 32px;
+    border-bottom: none;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--color-progress-bg), #a0c4ff);
+    border-radius: 20px 20px 0 0;
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a2332;
+    }
+
+    .dialog-close {
+      margin-left: auto;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      
+      &:hover {
+        background: white;
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .dialog-content {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .dialog-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 24px 32px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+    background: linear-gradient(to bottom, rgba(207, 226, 255, 0.1), rgba(207, 226, 255, 0.05));
+    border-radius: 0 0 24px 24px;
+
+    button {
+      min-width: 100px;
+      height: 44px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+  }
+}
+
+// Dialog forms
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .full-width {
+    width: 100%;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+// Confirm dialog specific
+.confirm-dialog {
+  max-width: 420px;
+
+  .dialog-message {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0;
+  }
+
+  .dialog-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    margin-top: 16px;
+
+    mat-icon {
+      color: #f59e0b;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: #92400e;
+    }
+  }
+}
+
+// Material Dialog overrides
+.mat-mdc-dialog-container {
+  .mdc-dialog__surface {
+    border-radius: 12px;
+  }
+
+  .mat-mdc-dialog-title {
+    padding: 24px 24px 20px;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1a2332;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .mat-mdc-dialog-content {
+    padding: 24px;
+  }
+
+  .mat-mdc-dialog-actions {
+    padding: 20px 24px;
+    gap: 12px;
+    justify-content: flex-end;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+
+    button {
+      min-width: 80px;
+    }
+  }
+}

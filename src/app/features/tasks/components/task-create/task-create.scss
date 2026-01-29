@@ -1,0 +1,171 @@
+// ============================================================================
+// TASK CREATE DIALOG - Styled popup
+// ============================================================================
+
+.task-dialog {
+  background: var(--color-surface);
+  border-radius: 24px;
+  padding: 0;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 480px;
+  width: 100%;
+  overflow: hidden;
+
+  h2 {
+    margin: 0;
+    padding: 28px 32px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a2332;
+    background: linear-gradient(135deg, var(--color-progress-bg), #a0c4ff);
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+  }
+
+  form {
+    padding: var(--space-xl) var(--space-2xl);
+  }
+}
+
+.form-group {
+  margin-bottom: var(--space-xl);
+
+  label {
+    display: block;
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-text-primary);
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+    transition: all 0.2s ease;
+    outline: none;
+
+    &:focus {
+      border-color: var(--color-progress-bg);
+      background: #f0f7ff;
+      box-shadow: 0 0 0 4px rgba(207, 226, 255, 0.3);
+    }
+
+    &:disabled {
+      background: var(--color-bg);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 40px;
+  }
+}
+
+.error-msg {
+  margin-top: var(--space-xs);
+  
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-error);
+    line-height: 1.5;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: flex-end;
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: var(--space-xl);
+
+  button {
+    padding: 0 var(--space-xl);
+    height: 44px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+    white-space: nowrap;
+    min-width: 100px;
+
+    &[type="submit"] {
+      background: transparent;
+      color: var(--color-text-primary);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+
+      &:hover:not(:disabled) {
+        background: rgba(0, 0, 0, 0.04);
+        border-color: rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        background: rgba(0, 0, 0, 0.12);
+        color: rgba(0, 0, 0, 0.38);
+        cursor: not-allowed;
+      }
+    }
+
+    &[type="button"] {
+      background: transparent;
+      color: var(--color-text-secondary);
+      border: 1px solid rgba(0, 0, 0, 0.12);
+
+      &:hover {
+        background: var(--color-bg);
+        border-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 600px) {
+  .task-dialog {
+    border-radius: 16px;
+    max-width: 95%;
+
+    h2 {
+      padding: var(--space-lg) var(--space-xl);
+      font-size: 18px;
+    }
+
+    form {
+      padding: var(--space-lg) var(--space-xl);
+    }
+  }
+
+  .actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}

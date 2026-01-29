@@ -1,0 +1,235 @@
+<div class="page board-container">
+  <div class="page-header board-header">
+    <div class="header-left">
+      <button 
+        *ngIf="projectId()" 
+        mat-icon-button 
+        class="back-btn" 
+        [routerLink]="['/teams', 'tasks']" 
+        [queryParams]="{ projectId: projectId() }"
+        aria-label="Go back">
+        <!-- Note: Back button logic might need to be smarter depending on where we came from, 
+             but simple back to project list or team logic is hard without more context. 
+             If we are in 'All Tasks' mode, maybe no back button needed or back to home. -->
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 class="page-title">Tasks Board</h1>
+    </div>
+    <button
+      *ngIf="projectId()"
+      mat-stroked-button
+      (click)="openCreateTask()"
+      class="create-task-btn"
+    >
+      <mat-icon>add</mat-icon>
+      Add Task
+    </button>
+  </div>
+
+  @if (state().isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading tasks...</p>
+    </div>
+  }
+
+  @if (state().error) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <div>
+        <h3>Failed to Load Tasks</h3>
+        <p>{{ state().error }}</p>
+      </div>
+    </div>
+  }
+
+  @if (!state().isLoading && !state().error) {
+    <div class="board-columns">
+      <!-- To Do Column -->
+      <div class="board-column">
+        <div class="column-header">
+          <h2>To Do</h2>
+          <mat-chip class="task-count">{{ todoTasks().length }}</mat-chip>
+        </div>
+
+        <div 
+          class="tasks-container"
+          cdkDropList
+          #todoList="cdkDropList"
+          [cdkDropListData]="todoTasks()"
+          [cdkDropListConnectedTo]="[progressList, doneList]"
+          (cdkDropListDropped)="drop($event, TaskStatus.TODO)">
+          @for (task of todoTasks(); track task.id) {
+            <mat-card 
+              class="task-card" 
+              cdkDrag
+              [cdkDragData]="task"
+              (click)="openEditTask(task)">
+              <mat-card-header>
+                <mat-card-title>{{ task.title }}</mat-card-title>
+              </mat-card-header>
+
+              @if (task.description) {
+                <mat-card-content class="task-description">
+                  {{ task.description }}
+                </mat-card-content>
+              }
+
+              <div class="task-footer">
+                @if (task.priority) {
+                  <mat-chip [ngClass]="'priority-' + task.priority.toLowerCase()">
+                    {{ task.priority }}
+                  </mat-chip>
+                }
+                @if (task.dueDate) {
+                  <span class="due-date">
+                    <mat-icon>calendar_today</mat-icon>
+                    {{ task.dueDate | date: 'MMM d' }}
+                  </span>
+                }
+              </div>
+            </mat-card>
+          }
+          @if (todoTasks().length === 0) {
+            <div class="empty-column">
+              <mat-icon>check_circle_outline</mat-icon>
+              <p>No tasks</p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- In Progress Column -->
+      <div class="board-column">
+        <div class="column-header">
+          <h2>In Progress</h2>
+          <mat-chip class="task-count">{{ inProgressTasks().length }}</mat-chip>
+        </div>
+
+        <div 
+          class="tasks-container"
+          cdkDropList
+          #progressList="cdkDropList"
+          [cdkDropListData]="inProgressTasks()"
+          [cdkDropListConnectedTo]="[todoList, doneList]"
+          (cdkDropListDropped)="drop($event, TaskStatus.IN_PROGRESS)">
+          @for (task of inProgressTasks(); track task.id) {
+            <mat-card 
+              class="task-card" 
+              cdkDrag
+              [cdkDragData]="task"
+              (click)="openEditTask(task)">
+              <mat-card-header>
+                <mat-card-title>{{ task.title }}</mat-card-title>
+              </mat-card-header>
+
+              @if (task.description) {
+                <mat-card-content class="task-description">
+                  {{ task.description }}
+                </mat-card-content>
+              }
+
+              <div class="task-footer">
+                @if (task.priority) {
+                  <mat-chip [ngClass]="'priority-' + task.priority.toLowerCase()">
+                    {{ task.priority }}
+                  </mat-chip>
+                }
+                @if (task.dueDate) {
+                  <span class="due-date">
+                    <mat-icon>calendar_today</mat-icon>
+                    {{ task.dueDate | date: 'MMM d' }}
+                  </span>
+                }
+              </div>
+            </mat-card>
+          }
+          @if (inProgressTasks().length === 0) {
+            <div class="empty-column">
+              <mat-icon>hourglass_empty</mat-icon>
+              <p>No tasks</p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Done Column -->
+      <div class="board-column">
+        <div class="column-header">
+          <h2>Done</h2>
+          <mat-chip class="task-count">{{ doneTasks().length }}</mat-chip>
+        </div>
+
+        <div 
+          class="tasks-container"
+          cdkDropList
+          #doneList="cdkDropList"
+          [cdkDropListData]="doneTasks()"
+          [cdkDropListConnectedTo]="[todoList, progressList]"
+          (cdkDropListDropped)="drop($event, TaskStatus.DONE)">
+          @for (task of doneTasks(); track task.id) {
+            <mat-card 
+              class="task-card completed" 
+              cdkDrag
+              [cdkDragData]="task"
+              (click)="openEditTask(task)">
+              <mat-card-header>
+                <mat-card-title>{{ task.title }}</mat-card-title>
+              </mat-card-header>
+
+              @if (task.description) {
+                <mat-card-content class="task-description">
+                  {{ task.description }}
+                </mat-card-content>
+              }
+
+              <div class="task-footer">
+                @if (task.priority) {
+                  <mat-chip [ngClass]="'priority-' + task.priority.toLowerCase()">
+                    {{ task.priority }}
+                  </mat-chip>
+                }
+                @if (task.dueDate) {
+                  <span class="due-date">
+                    <mat-icon>calendar_today</mat-icon>
+                    {{ task.dueDate | date: 'MMM d' }}
+                  </span>
+                }
+              </div>
+            </mat-card>
+          }
+          @if (doneTasks().length === 0) {
+            <div class="empty-column">
+              <mat-icon>done_all</mat-icon>
+              <p>No tasks</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (isCreateTaskOpen()) {
+    <div class="dialog-overlay" (click)="closeCreateTask()">
+      <div class="dialog-content" (click)="$event.stopPropagation()">
+        <app-task-create-dialog
+          (taskCreated)="handleCreateTask($event)"
+          (dialogClosed)="closeCreateTask()"
+        ></app-task-create-dialog>
+      </div>
+    </div>
+  }
+
+  @if (selectedTask()) {
+    <div class="dialog-overlay" (click)="closeEditTask()">
+      <div class="dialog-content" (click)="$event.stopPropagation()">
+        <app-task-editor-dialog
+          [task]="selectedTask()!"
+          (save)="handleUpdateTask($event)"
+          (delete)="handleDeleteTask($event)"
+          (cancel)="closeEditTask()"
+        ></app-task-editor-dialog>
+      </div>
+    </div>
+  }
+</div>

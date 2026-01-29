@@ -1,0 +1,73 @@
+.comment-form {
+  .input-wrapper {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    transition: all 0.2s;
+    
+    &:focus-within {
+      border-color: var(--color-progress-bg);
+      box-shadow: 0 0 0 3px rgba(207, 226, 255, 0.2);
+    }
+  }
+  
+  .comment-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    background: transparent;
+    min-height: 40px;
+    max-height: 120px;
+    
+    &::placeholder {
+      color: var(--color-text-secondary);
+    }
+  }
+  
+  .send-btn {
+    background: var(--color-progress-bg);
+    border: none;
+    border-radius: 12px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 80px;
+    justify-content: center;
+    
+    .btn-text {
+      font-weight: 500;
+      font-size: 14px;
+      color: #1a2332;
+    }
+    
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #1a2332;
+    }
+    
+    &:hover:not(:disabled) {
+      background: #a0c4ff;
+      transform: translateY(-1px);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

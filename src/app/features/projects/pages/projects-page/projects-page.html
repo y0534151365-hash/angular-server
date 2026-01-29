@@ -1,0 +1,66 @@
+<section class="page projects-container">
+  <div class="page-header">
+    <div class="header-left">
+      <button *ngIf="currentTeamId()" mat-icon-button class="back-btn" routerLink="/teams" aria-label="Go back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1 class="page-title">Projects</h1>
+    </div>
+    <button *ngIf="currentTeamId()" mat-stroked-button (click)="openCreateProjectModal()" class="create-btn">
+      <mat-icon>add</mat-icon>
+      Create Project
+    </button>
+  </div>
+
+  <div *ngIf="state().isLoading" class="loading-container">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p>Loading projects...</p>
+  </div>
+
+  <div *ngIf="state().error" class="error-state">
+    <mat-icon>error_outline</mat-icon>
+    <div>
+      <h3>Failed to Load Projects</h3>
+      <p>{{ state().error }}</p>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!state().isLoading && !state().error">
+    <div *ngIf="filteredProjects().length === 0" class="empty-state">
+      <mat-icon>folder_open</mat-icon>
+      <h3>No Projects Yet</h3>
+      <p>Create a new project to start managing tasks</p>
+      <button *ngIf="currentTeamId()" mat-stroked-button (click)="openCreateProjectModal()" class="empty-action">
+        <mat-icon>add</mat-icon>
+        Create Your First Project
+      </button>
+    </div>
+
+    <div *ngIf="filteredProjects().length > 0" class="projects-grid">
+      <mat-card 
+        *ngFor="let project of filteredProjects(); let i = index; trackBy: trackByProjectId" 
+        class="project-card"
+        [ngClass]="getColorClass(i)">
+        <div class="card-accent"></div>
+        <div class="card-inner">
+          <div class="project-icon">
+            <mat-icon>folder</mat-icon>
+          </div>
+          <h3 class="project-name">{{ project.name }}</h3>
+          <p *ngIf="project.description" class="project-description">{{ project.description }}</p>
+          <button 
+            mat-stroked-button 
+            type="button" 
+            [routerLink]="['/teams', project.team_id, 'tasks']" 
+            [queryParams]="{ projectId: project.id }" 
+            class="view-tasks-btn">
+            <mat-icon>task_alt</mat-icon>
+            <span>View Tasks</span>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </ng-container>
+
+  <app-project-create-dialog *ngIf="createProjectModalOpen()" (close)="closeCreateProjectModal()" (createProject)="onCreateProjectSubmit($event)"></app-project-create-dialog>
+</section>

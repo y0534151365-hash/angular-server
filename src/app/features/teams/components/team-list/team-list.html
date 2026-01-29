@@ -1,0 +1,12 @@
+
+@for (team of teams; track team.id; let i = $index) {
+  <app-team-card [team]="team" [colorClass]="getColorClass(i)" (addMember)="forwardAddMember($event)"></app-team-card>
+}
+
+
+
+
+
+
+
+

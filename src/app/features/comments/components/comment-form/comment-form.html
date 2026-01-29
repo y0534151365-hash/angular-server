@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="comment-form">
+  <div class="input-wrapper">
+    <textarea 
+      formControlName="body" 
+      placeholder="Write a comment..." 
+      rows="2"
+      class="comment-input"
+    ></textarea>
+    <button type="submit" [disabled]="form.invalid || isSubmitting" class="send-btn">
+      <span class="btn-text">{{ isSubmitting ? 'Sending...' : 'Send' }}</span>
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</form>

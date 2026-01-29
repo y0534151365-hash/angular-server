@@ -1,0 +1,271 @@
+// ============================================================================
+// TASK BOARD - Kanban Layout Matching Reference UI
+// ============================================================================
+
+.page.board-container {
+  background: var(--color-bg);
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-xl);
+}
+
+.dialog-content {
+  max-width: 540px;
+  width: 100%;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.board-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  max-width: 1400px;
+  margin: 0 auto;
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+}
+
+.board-column {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: var(--space-md);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  min-height: 400px;
+  
+  .column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-md);
+    border-radius: 10px;
+    
+    h2 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--color-text-primary);
+      text-align: right;
+      line-height: 1.5;
+    }
+    
+    mat-chip {
+      font-size: 13px;
+      min-height: 26px;
+      padding: 0 10px;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--color-text-primary);
+      border-radius: 6px;
+    }
+  }
+  
+  // Column-specific colors (matching screenshot)
+  &:nth-child(1) .column-header {
+    background: var(--color-todo-bg);
+  }
+  
+  &:nth-child(2) .column-header {
+    background: var(--color-progress-bg);
+  }
+  
+  &:nth-child(3) .column-header {
+    background: var(--color-done-bg);
+  }
+}
+
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-height: 200px;
+}
+
+.task-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  background: var(--color-surface);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+  
+  mat-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  mat-card-content {
+    padding-top: var(--space-sm);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+  
+  &.completed {
+    opacity: 0.6;
+    
+    mat-card-title {
+      text-decoration: line-through;
+    }
+  }
+}
+
+.task-footer {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: var(--space-md);
+  
+  mat-chip {
+    font-size: 11px;
+    min-height: 20px;
+    font-weight: 600;
+    padding: 0 6px;
+    
+    &.priority-high {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    
+    &.priority-medium {
+      background: #fff7ed;
+      color: #9a3412;
+      border: 1px solid #fed7aa;
+    }
+    
+    &.priority-low {
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+  }
+  
+  .due-date {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    
+    mat-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+.empty-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  min-height: 200px;
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.2;
+    margin-bottom: var(--space-md);
+    color: var(--color-text-secondary);
+  }
+  
+  p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+  }
+}
+
+// ============================================================================
+// DRAG AND DROP STYLES
+// ============================================================================
+
+.cdk-drag {
+  cursor: grab;
+  
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
+  border-radius: 10px;
+  transform: rotate(2deg);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  background: var(--color-bg);
+  border: 2px dashed var(--color-primary);
+  border-radius: 10px;
+}
+
+.cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.tasks-container.cdk-drop-list-dragging .task-card:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.cdk-drop-list-receiving {
+  background: rgba(66, 133, 244, 0.05);
+  border-radius: 12px;
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: 1200px) {
+  .board-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
